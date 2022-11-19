@@ -9,9 +9,13 @@ const LoginStack = () => {
     return(
         <Stack.Navigator>
 
-            <Stack.Screen name="login" component={LoginView} />
+            <Stack.Screen name="login" component={LoginView} options={{
+                headerShown: false
+            }} />
 
-            <Stack.Screen name="mainNavigationTab" component={MainNavigationTab} />
+            <Stack.Screen name="mainNavigationTab" component={MainNavigationTab} options={{
+                headerShown: false
+            }} />
 
         </Stack.Navigator>
     )

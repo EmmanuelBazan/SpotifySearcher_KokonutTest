@@ -7,7 +7,9 @@ const MyLibraryStack = () => {
     return(
         <Stack.Navigator>
 
-            <Stack.Screen name="myLibrary" component={MyLibraryView} />
+            <Stack.Screen name="myLibrary" component={MyLibraryView} options={{
+                headerShown: false
+            }} />
 
         </Stack.Navigator>
     )
