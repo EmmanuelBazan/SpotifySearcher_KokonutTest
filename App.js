@@ -11,10 +11,11 @@ import React from 'react';
 import {Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import LoginStack from './src/presentation/navigation/stack/LoginStack';
+import linking from './src/presentation/navigation/linking/Linking';
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking} >
       <LoginStack/>
     </NavigationContainer>
   );
