@@ -37,11 +37,11 @@ async function myFetch<T>(code: string): Promise<TypedResponse<T>> {
         body: searchParams
       })
   .then((res) => {
-    return res
+    return { ...res, is_auth: true }
   })
   .catch((err) => {
     console.error("ERROR GET TOKEN ---> ",err);
-    return err
+    return { ...err, is_auth: false }
   })
 
 }

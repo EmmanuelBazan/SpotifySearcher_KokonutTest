@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Linking } from "react-native";
 import AuthenticationAPIDataSourceImpl from "../../../data/dataSource/API/AuthenticationAPIDataSourceImpl";
 import AuthenticationRepositoryImpl from "../../../data/repository/AuthenticationRepositoryImpl";
@@ -10,6 +10,9 @@ const URL_SPOTIFY = `https://accounts.spotify.com/authorize?client_id=${CLIENT_I
 
 const LoginViewModel = () => {
 
+    const [ errorMess, serErrorMess ] = useState('');
+    const [ goHome, setGoHome ] = useState(false);
+
     useEffect(() => {
         Linking.addEventListener('url',handleUrl)
         return () => { Linking.removeAllListeners }
@@ -19,8 +22,12 @@ const LoginViewModel = () => {
 
     const handleUrl = async({url = ''}) => {
         const spotifyCode = url.split("code=")[1];
-        const responseAPI = await useCase.invoke(spotifyCode);
-        console.log("API FINAL RESPONSE ---> ",responseAPI);
+        if(spotifyCode){
+            setGoHome(true)
+            const responseAPI = await useCase.invoke(spotifyCode)
+        } else {
+            serErrorMess('Error al iniciar sesion')
+        }
     }
 
     const loginToSpotify = async() => {
@@ -28,7 +35,9 @@ const LoginViewModel = () => {
     }
 
     return {
-        loginToSpotify
+        loginToSpotify,
+        errorMess,
+        goHome
     }
 }
 
