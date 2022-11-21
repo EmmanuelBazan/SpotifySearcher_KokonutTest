@@ -23,8 +23,8 @@ const LoginViewModel = () => {
     const handleUrl = async({url = ''}) => {
         const spotifyCode = url.split("code=")[1];
         if(spotifyCode){
+            await useCase.invoke(spotifyCode)
             setGoHome(true)
-            const responseAPI = await useCase.invoke(spotifyCode)
         } else {
             serErrorMess('Error al iniciar sesion')
         }

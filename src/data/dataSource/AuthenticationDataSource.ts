@@ -1,5 +1,5 @@
 import { Authentication } from "../../domain/model/Authentication";
 
 export default interface AuthenticationDataSource {
-    getAuthenticationToken(code: string): Promise<Authentication>;
+    getAuthenticationToken(code: string): void;
 }

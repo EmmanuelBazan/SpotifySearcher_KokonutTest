@@ -9,7 +9,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     this.dataSource = _dataSource;
   }
 
-  async getAuthenticationToken(code: string): Promise<Authentication> {
+  async getAuthenticationToken(code: string) {
     return this.dataSource.getAuthenticationToken(code);
   }
 

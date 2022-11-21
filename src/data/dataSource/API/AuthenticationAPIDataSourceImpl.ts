@@ -1,6 +1,7 @@
 import { Authentication } from "../../../domain/model/Authentication";
 import AuthenticationDataSource from "../AuthenticationDataSource";
 import { AuthenticationAPIEntity } from "./entity/AuthenticationAPIEntity";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BASE_URL = "https://accounts.spotify.com/api/token";
 const CLIENT_ID = 'b666fc8cd91c4f2a952ff2c67b6a81e8';
@@ -27,8 +28,6 @@ async function myFetch<T>(code: string): Promise<TypedResponse<T>> {
 
   const searchParams = Object.keys(params).map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(params[key])).join("&");
 
-  console.log("SEARCH PARAMS ---> ",searchParams);
-
   return fetch(BASE_URL,{
         method: 'POST',
         headers: {
@@ -37,21 +36,25 @@ async function myFetch<T>(code: string): Promise<TypedResponse<T>> {
         body: searchParams
       })
   .then((res) => {
-    return { ...res, is_auth: true }
+    return res
   })
   .catch((err) => {
     console.error("ERROR GET TOKEN ---> ",err);
-    return { ...err, is_auth: false }
+    return err
   })
 
 }
 
+async function saveToken(token: string){
+  await AsyncStorage.setItem('@storage_Key', token)
+}
+
 class AuthenticationAPIDataSourceImpl implements AuthenticationDataSource {
 
-    async getAuthenticationToken(code: string): Promise<Authentication> {
+    async getAuthenticationToken(code: string) {
         let response = await myFetch<AuthenticationAPIEntity>(code);
         let data = await response.json();
-        return data;
+        await saveToken(data.access_token);
     }
 
 }
