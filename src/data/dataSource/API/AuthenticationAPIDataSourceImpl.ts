@@ -46,7 +46,7 @@ async function myFetch<T>(code: string): Promise<TypedResponse<T>> {
 }
 
 async function saveToken(token: string){
-  await AsyncStorage.setItem('@storage_Key', token)
+  await AsyncStorage.setItem('@storage_token', token)
 }
 
 class AuthenticationAPIDataSourceImpl implements AuthenticationDataSource {

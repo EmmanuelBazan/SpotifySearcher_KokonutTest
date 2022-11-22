@@ -1,8 +1,7 @@
-import { Authentication } from "../../model/Authentication";
 import AuthenticationRepository from "../../repository/AuthenticationRepository";
 
 export interface GetAuthenticationTokenUseCase {
-    invoke: (code: string) => void;
+    invoke(code: string): void;
 }
 
 export class GetAuthenticationToken implements GetAuthenticationTokenUseCase {
