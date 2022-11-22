@@ -33,7 +33,6 @@ class SpotiAppAPIDataSourceImpl implements SpotiAppDataSource {
     async getGeneralSearch(query: string): Promise<GeneralSearch> {
         let tken = await getStoredToken() as string;
         let response = await myFetch<GeneralSearchAPIEntity>(`${BASE_URL}/search?type=album,track,artist&q=${query}`,tken);
-        console.log("RESPONSE ---> ",response);
         const generalSearch: GeneralSearch = {
             album_list: response.albums.items,
             artist_list: response.artists.items,
