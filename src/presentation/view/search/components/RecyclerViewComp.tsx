@@ -25,7 +25,7 @@ const RecyclerViewComp = ({searchItem,filterItem}: recyclerType) => {
         (index) => 0,
         (type,dim) => {
             dim.width = DIMENSIONS_SCREEN.width;
-            dim.height = 50;
+            dim.height = 80;
         }
     )
 
@@ -58,7 +58,7 @@ const RecyclerViewComp = ({searchItem,filterItem}: recyclerType) => {
               <>
               {
                   filterItem === 1 ?
-                  <TrackBlockComp/>
+                  <TrackBlockComp trackItem={data}/>
                   : filterItem === 2 ?
                   <ArtistBlockComp/>
                   : filterItem === 3 ?

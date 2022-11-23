@@ -2,7 +2,7 @@ import { Text, View, TextInput, Button, StyleSheet, Dimensions } from "react-nat
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchViewModel from "./SearchViewModel";
 import RecyclerViewComp from "./components/RecyclerViewComp";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const DIMENSIONS_SCREEN = Dimensions.get('screen');
 
@@ -10,6 +10,7 @@ const SearchView = () => {
 
     const { searchItem, handleOnChange } = SearchViewModel();
     const [listFilter,setListFilter] = useState(1);
+    // const listFilter = useRef(1)
 
     return (
       <SafeAreaView>
@@ -24,19 +25,19 @@ const SearchView = () => {
           <Button
             title="canciones"
             onPress={() => {
-              setListFilter(1);
+              setListFilter((listFilter) => listFilter = 1)
             }}
           />
           <Button
             title="artistas"
             onPress={() => {
-              setListFilter(2);
+              setListFilter((listFilter) => listFilter = 2)
             }}
           />
           <Button
             title="albumes"
             onPress={() => {
-              setListFilter(3);
+              setListFilter((listFilter) => listFilter = 3)
             }}
           />
         </View>
