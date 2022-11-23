@@ -6,14 +6,14 @@ import GetGeneralSearch from "../../../domain/useCase/generalSearch/GetGeneralSe
 
 const SearchViewModel = () => {
 
-    const [listToShow,setListToShow] = useState<any>([]);
+    const [listToShow,setListToShow] = useState([]);
     const [listFilter,setListFilter] = useState(1);
-    const querySearch = useRef('');
-    const generalSearchRef = useRef<GeneralSearch>({
+    const [listResult,setListResult] = useState<GeneralSearch>({
         track_list: [],
         artist_list: [],
         album_list: []
     });
+    const querySearch = useRef(''); 
 
     const useCase = new GetGeneralSearch(new GeneralSearchRepositoryImpl(new SpotiAppAPIDataSourceImpl()));
 
@@ -27,25 +27,20 @@ const SearchViewModel = () => {
         querySearch.current = value;
         if(value.length > 0){
             const generalSearchItem: GeneralSearch = await useCase.invoke(querySearch.current);
-            generalSearchRef.current = generalSearchItem;
+            console.log("GENERAL SEARCH ---> ",generalSearchItem.track_list)
+            setListResult(generalSearchItem);
             showList();
         }
     }
 
     const showList = () => {
-        if(listFilter === 1){
-            setListToShow(generalSearchRef.current.track_list);
-        } else if(listFilter === 2) {
-            setListToShow(generalSearchRef.current.artist_list);
-        } else if(listFilter === 3) {
-            setListToShow(generalSearchRef.current.album_list);
-        }
     }
 
     return {
         listToShow,
         handleOnChange,
-        setListFilter
+        setListFilter,
+        listResult
     }
 }
 
