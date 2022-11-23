@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import SpotiAppAPIDataSourceImpl from "../../../data/dataSource/API/SpotiAppAPIDataSourceImpl";
 import GeneralSearchRepositoryImpl from "../../../data/repository/GeneralSearchRepositoryImpl";
 import GeneralSearch from "../../../domain/model/GeneralSearch";
+import Track from "../../../domain/model/Track";
 import GetGeneralSearch from "../../../domain/useCase/generalSearch/GetGeneralSearch";
 
 const SearchViewModel = () => {
 
-    const [listToShow,setListToShow] = useState([]);
-    const [listFilter,setListFilter] = useState(1);
-    const [listResult,setListResult] = useState<GeneralSearch>({
+    const [listToShow,setListToShow] = useState<[]>([]);
+    const [searchItem,setSearchItem] = useState<GeneralSearch>({
         track_list: [],
         artist_list: [],
         album_list: []
@@ -17,30 +17,19 @@ const SearchViewModel = () => {
 
     const useCase = new GetGeneralSearch(new GeneralSearchRepositoryImpl(new SpotiAppAPIDataSourceImpl()));
 
-    useEffect(() => {
-        if(querySearch.current.length > 0){
-            showList();
-        }
-    },[listFilter])
-
     const handleOnChange = async(value: string) => {
         querySearch.current = value;
         if(value.length > 0){
-            const generalSearchItem: GeneralSearch = await useCase.invoke(querySearch.current);
-            console.log("GENERAL SEARCH ---> ",generalSearchItem.track_list)
-            setListResult(generalSearchItem);
-            showList();
+            const generalSearchItem: GeneralSearch = await useCase.invoke(querySearch.current);//querySearch.current
+            setSearchItem(generalSearchItem);
         }
-    }
-
-    const showList = () => {
     }
 
     return {
         listToShow,
         handleOnChange,
-        setListFilter,
-        listResult
+        searchItem,
+        querySearch
     }
 }
 

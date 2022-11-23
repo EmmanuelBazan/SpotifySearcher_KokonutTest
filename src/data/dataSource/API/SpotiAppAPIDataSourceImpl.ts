@@ -42,25 +42,36 @@ class SpotiAppAPIDataSourceImpl implements SpotiAppDataSource {
             album_list: response.albums.items,
             artist_list: response.artists.items,
             track_list: response.tracks.items.map((track: Track) => {
-                const artistItem: Artist = {
-                    id: track.artists.id,
-                    name: track.artists.name,
-                    images: track.artists.images,
-                }
                 const albumItem: Album = {
                     id: track.album.id,
                     album_type: track.album.album_type,
-                    artists: artistItem,
                     images: track.album.images,
-                    release_date: track.album.release_date
+                    release_date: track.album.release_date,
+                    artists: track.artists.map((artist: Artist) => {
+                        const artistItem: Artist = {
+                            id: artist.id,
+                            name: artist.name
+                        }
+                        return artistItem
+                    }),
                 }
                 const trackItem: Track = {
                     id: track.id,
                     name: track.name,
                     album: albumItem,
-                    artists: artistItem,
-                    explicit: track.explicit
+                    explicit: track.explicit,
+                    artists: track.artists.map((artist: Artist) => {
+                        
+                        const artistItem: Artist = {
+                            id: artist.id,
+                            name: artist.name
+                        }
+                        
+                        return artistItem
+                    })
+                    
                 }
+                // console.log("ARTIST TRACK ---> ",trackItem.artists)
                 return trackItem;
             }),
         }
