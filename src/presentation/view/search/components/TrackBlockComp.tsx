@@ -7,7 +7,6 @@ type trackBlockType = {
 }
 
 const TrackBlockComp = ({trackItem}:trackBlockType) => {
-    console.log("TRACK ITEM ---> ",trackItem)
     return(
         <>
         <TouchableOpacity>

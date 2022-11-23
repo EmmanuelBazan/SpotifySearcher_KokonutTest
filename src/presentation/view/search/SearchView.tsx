@@ -8,7 +8,7 @@ const DIMENSIONS_SCREEN = Dimensions.get('screen');
 
 const SearchView = () => {
 
-    const { searchItem, handleOnChange } = SearchViewModel();
+    const { searchItem, handleOnChange, errorMess } = SearchViewModel();
     const [listFilter,setListFilter] = useState(1);
     // const listFilter = useRef(1)
 
@@ -25,27 +25,37 @@ const SearchView = () => {
           <Button
             title="canciones"
             onPress={() => {
-              setListFilter((listFilter) => listFilter = 1)
+              setListFilter(listFilter => (listFilter = 1));
             }}
           />
           <Button
             title="artistas"
             onPress={() => {
-              setListFilter((listFilter) => listFilter = 2)
+              setListFilter(listFilter => (listFilter = 2));
             }}
           />
           <Button
             title="albumes"
             onPress={() => {
-              setListFilter((listFilter) => listFilter = 3)
+              setListFilter(listFilter => (listFilter = 3));
             }}
           />
         </View>
-        {searchItem.track_list.length > 0 ? (
-          <View
-            style={styles.recyclerSeccion}>
-            <RecyclerViewComp searchItem={searchItem} filterItem={listFilter} />
+        {
+          errorMess.length > 0 ?
+          <View style={styles.noConnSeccion}>
+            <Text style={styles.noConnLabel}>{errorMess}</Text>
           </View>
+          :
+          <></>
+        }
+        {searchItem.track_list.length > 0 ? (
+          <View style={styles.recyclerSeccion}>
+          <RecyclerViewComp
+            searchItem={searchItem}
+            filterItem={listFilter}
+          />
+        </View>
         ) : (
           <View />
         )}
@@ -79,5 +89,19 @@ const styles = StyleSheet.create({
     recyclerSeccion: {
         width: '100%',
         height: DIMENSIONS_SCREEN.height * 0.8
+    },
+    noConnSeccion: {
+      display: 'flex',
+      width: '100%',
+      padding: 10,
+      flexDirection: 'row',
+      backgroundColor: 'black',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    noConnLabel: {
+      color: 'white',
+      fontSize: 16,
+      fontWeight: 'normal'
     }
 })
