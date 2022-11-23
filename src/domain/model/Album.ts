@@ -6,5 +6,6 @@ export default interface Album {
     album_type: string,
     artists: Artist[],
     images: ImageItem[],
-    release_date: string
+    release_date: string,
+    name: string
 }

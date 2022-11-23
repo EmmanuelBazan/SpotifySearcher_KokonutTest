@@ -20,12 +20,13 @@ type recyclerType = {
 const RecyclerViewComp = ({searchItem,filterItem}: recyclerType) => {
 
     const [dataProvider,setDataProvider] = useState<BaseDataProvider>(createNewDataProvider());
+    const [heightView,setHeightView] = useState(80);
 
     const _layoutProvider = new LayoutProvider(
         (index) => 0,
         (type,dim) => {
             dim.width = DIMENSIONS_SCREEN.width;
-            dim.height = 80;
+            dim.height = heightView;
         }
     )
 
@@ -36,10 +37,13 @@ const RecyclerViewComp = ({searchItem,filterItem}: recyclerType) => {
     const filterList = () => {
         if(filterItem === 1){
             updateDataProvider(searchItem.track_list)
+            setHeightView(80)
         } else if(filterItem === 2){
             updateDataProvider(searchItem.artist_list)
+            setHeightView(80)
         } else if(filterItem === 3){
             updateDataProvider(searchItem.album_list)
+            setHeightView(DIMENSIONS_SCREEN.width * 0.5)
         }
     }
 
@@ -60,9 +64,9 @@ const RecyclerViewComp = ({searchItem,filterItem}: recyclerType) => {
                   filterItem === 1 ?
                   <TrackBlockComp trackItem={data}/>
                   : filterItem === 2 ?
-                  <ArtistBlockComp/>
+                  <ArtistBlockComp artistItem={data}/>
                   : filterItem === 3 ?
-                  <AlbumBlockComp/>
+                  <AlbumBlockComp albumItem={data}/>
                   : <View/>
               }
               </>

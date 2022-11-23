@@ -39,9 +39,54 @@ class SpotiAppAPIDataSourceImpl implements SpotiAppDataSource {
         let tken = await getStoredToken() as string;
         let response = await myFetch<GeneralSearchAPIEntity>(`${BASE_URL}/search?type=album,track,artist&q=${query}`,tken);
         const generalSearch: GeneralSearch = {
-            album_list: response.albums.items,
-            artist_list: response.artists.items,
-            track_list: response.tracks.items.map((track: Track) => {
+            album_list: response.albums.items.map((album) => {
+                const albumItem: Album = {
+                    id: album.id,
+                    album_type: album.album_type,
+                    artists: album.artists.map((artist) => {
+                        const artistItem: Artist = {
+                            id: artist.id,
+                            name: artist.name,
+                            images: artist.images?.map((img) => {
+                                const imgItem: ImageItem = {
+                                    height: img.height,
+                                    url: img.url,
+                                    width: img.width,
+                                }
+                                return imgItem
+                            }),
+                        }
+                        return artistItem
+                    }),
+                    images: album.images.map((img) => {
+                        const imgItem: ImageItem = {
+                            height: img.height,
+                            url: img.url,
+                            width: img.width,
+                        }
+                        return imgItem
+                    }),
+                    release_date: album.release_date,
+                    name: album.name
+                }
+                return albumItem
+            }),
+            artist_list: response.artists.items.map((artist) => {
+                const artistItem: Artist = {
+                    id: artist.id,
+                    name: artist.name,
+                    images: artist.images?.map((img) => {
+                        const imgItem: ImageItem = {
+                            height: img.height,
+                            url: img.url,
+                            width: img.width,
+                        }
+                        return imgItem
+                    }),
+                }
+                return artistItem
+            }),
+            track_list: response.tracks.items.map((track) => {
                 const albumItem: Album = {
                     id: track.album.id,
                     album_type: track.album.album_type,
@@ -53,6 +98,7 @@ class SpotiAppAPIDataSourceImpl implements SpotiAppDataSource {
                         }
                         return imgItem
                     }),
+                    name: track.album.name,
                     release_date: track.album.release_date,
                     artists: track.artists.map((artist: Artist) => {
                         const artistItem: Artist = {
@@ -78,11 +124,9 @@ class SpotiAppAPIDataSourceImpl implements SpotiAppDataSource {
                     })
                     
                 }
-                // console.log("ARTIST TRACK ---> ",trackItem.artists)
                 return trackItem;
             }),
         }
-        // console.log("GENERAL SEARCH 2.0 ---> ",generalSearch.track_list);
         return generalSearch;
     }
 
