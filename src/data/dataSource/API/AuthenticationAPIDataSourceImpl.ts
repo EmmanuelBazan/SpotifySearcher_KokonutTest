@@ -1,4 +1,3 @@
-import { Authentication } from "../../../domain/model/Authentication";
 import AuthenticationDataSource from "../AuthenticationDataSource";
 import { AuthenticationAPIEntity } from "./entity/AuthenticationAPIEntity";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,10 +13,16 @@ const commonParams = {
   client_secret: CLIENT_SECRET
 }
 
+/** Interface que describe la respuesta de la funcion `myFetch()` */
 interface TypedResponse<T = any> extends Response {
   json<P = T>(): Promise<P>;
 }
 
+/**
+ * Hacer un fetch a la API de Spotify
+ * @param code - codigo para intercambiar por el token de acceso
+ * @returns Promesa con objeto
+ */
 async function myFetch<T>(code: string): Promise<TypedResponse<T>> {
 
   const params: any = {
@@ -45,12 +50,23 @@ async function myFetch<T>(code: string): Promise<TypedResponse<T>> {
 
 }
 
+/**
+ * Guardar token de acceso en `AsyncStorage`
+ * @param token - token de acceso para la API
+ * @returns (void)
+ */
 async function saveToken(token: string){
   await AsyncStorage.setItem('@storage_token', token)
 }
 
+/** Clase que implementa de la interfaz de nuestro origen de datos */
 class AuthenticationAPIDataSourceImpl implements AuthenticationDataSource {
 
+  /**
+   * Obtener token de acceso para la API
+   * @param code - codigo para intercambiar por el token de acceso
+   * @returns (void)
+   */
     async getAuthenticationToken(code: string) {
         let response = await myFetch<AuthenticationAPIEntity>(code);
         let data = await response.json();

@@ -9,6 +9,10 @@ import ImageItem from "../../../domain/model/ImageItem";
 
 const BASE_URL = 'https://api.spotify.com/v1';
 
+/**
+ * Obtener token de acceso almacenado en `AsyncStorage`
+ * @returns string - token de acceso
+ */
 async function getStoredToken() {
     try {
         return await AsyncStorage.getItem('@storage_token');
@@ -17,6 +21,12 @@ async function getStoredToken() {
     }
 }
 
+/**
+ * Hacer una llamada a la API de Spotify
+ * @param url - URL a la que se va a hacer la llamada
+ * @param tken - token de acceso
+ * @returns Promesa JSON con la respuesta del fetch
+ */
 async function myFetch<T>(url: string, tken: string): Promise<T>{
     console.log("TOKEN ---> ",tken)
     return fetch(url,{
@@ -33,8 +43,14 @@ async function myFetch<T>(url: string, tken: string): Promise<T>{
     })
 }
 
+/** Clase que implementa la interfaz de nuestro origen de datos */
 class SpotiAppAPIDataSourceImpl implements SpotiAppDataSource {
 
+    /**
+     * Obtener respuesta de la busqueda sobre el servicio de Spotify
+     * @param query - paramtros para realizar la busqueda
+     * @returns Promesa con objeto de tipo `GeneralSearch`
+     */
     async getGeneralSearch(query: string): Promise<GeneralSearch> {
         let tken = await getStoredToken() as string;
         let response = await myFetch<GeneralSearchAPIEntity>(`${BASE_URL}/search?type=album,track,artist&q=${query}`,tken);
