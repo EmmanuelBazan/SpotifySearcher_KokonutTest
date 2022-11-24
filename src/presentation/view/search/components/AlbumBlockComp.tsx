@@ -1,6 +1,7 @@
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import Album from "../../../../domain/model/Album"
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Album from "../../../../domain/model/Album";
+import AlbumBlockStyle from "../styles/AlbumBlockStyle";
 
 const DIMENSIONS_SCREEN = Dimensions.get('screen');
 
@@ -12,12 +13,12 @@ const AlbumBlockComp = ({albumItem}:albumBlockType) => {
     return(
         <>
         <TouchableOpacity>
-            <View style={styles.blockContainer}>
-            <Image style={styles.image} source={{uri: albumItem?.images ? albumItem.images[0].url : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} />
-                <View style={styles.labelContainer}>
-                    <Text style={styles.albumLabel} >{albumItem?.name ? albumItem.name : ''}</Text>
-                    <Text style={styles.artistLabel} >{albumItem?.artists ? albumItem.artists[0].name : ''}</Text>
-                    <Text style={styles.dateLabel} >{albumItem?.release_date ? albumItem.release_date : ''}</Text>
+            <View style={AlbumBlockStyle.blockContainer}>
+            <Image style={AlbumBlockStyle.image} source={{uri: albumItem?.images ? albumItem.images[0].url : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} />
+                <View style={AlbumBlockStyle.labelContainer}>
+                    <Text style={AlbumBlockStyle.albumLabel} >{albumItem?.name ? albumItem.name : ''}</Text>
+                    <Text style={AlbumBlockStyle.artistLabel} >{albumItem?.artists ? albumItem.artists[0].name : ''}</Text>
+                    <Text style={AlbumBlockStyle.dateLabel} >{albumItem?.release_date ? albumItem.release_date : ''}</Text>
                 </View>
             </View>
         </TouchableOpacity>

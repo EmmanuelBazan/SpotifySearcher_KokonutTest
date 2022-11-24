@@ -1,6 +1,8 @@
-import { Image, StyleSheet, Text, View } from "react-native"
-import { TouchableOpacity } from "react-native-gesture-handler"
-import Track from "../../../../domain/model/Track"
+import { Image, StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Track from "../../../../domain/model/Track";
+import {WHITE_1} from '../../../styles/Colors';
+import TrackBlockStyle from '../styles/TrackBlockstyle';
 
 type trackBlockType = {
     trackItem: Track
@@ -10,11 +12,11 @@ const TrackBlockComp = ({trackItem}:trackBlockType) => {
     return(
         <>
         <TouchableOpacity>
-            <View style={styles.blockContainer}>
-                <Image style={styles.image} source={{uri: trackItem?.album?.images ? trackItem.album.images[0].url : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png'}} />
-                <View style={styles.labelContainer}>
-                    <Text style={styles.trackLabel}>{trackItem?.name ? trackItem.name : ''}</Text>
-                    <Text style={styles.artistLabel}>{trackItem?.artists ? trackItem.artists[0].name : ''}</Text>
+            <View style={TrackBlockStyle.blockContainer}>
+                <Image style={TrackBlockStyle.image} source={{uri: trackItem?.album?.images ? trackItem.album.images[0].url : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png'}} />
+                <View style={TrackBlockStyle.labelContainer}>
+                    <Text style={TrackBlockStyle.trackLabel}>{trackItem?.name ? trackItem.name : ''}</Text>
+                    <Text style={TrackBlockStyle.artistLabel}>{trackItem?.artists ? trackItem.artists[0].name : ''}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -23,30 +25,3 @@ const TrackBlockComp = ({trackItem}:trackBlockType) => {
 }
 
 export default TrackBlockComp;
-
-const styles = StyleSheet.create({
-    blockContainer: {
-        display: 'flex',
-        width: '100%',
-        height: 80,
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    image: {
-        width: 70,
-        height: 70,
-        margin: 15
-    },
-    labelContainer: {
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    trackLabel: {
-        fontSize: 16,
-        fontWeight: '700'
-    },
-    artistLabel: {
-        fontSize: 12,
-        fontWeight: '500'
-    }
-})

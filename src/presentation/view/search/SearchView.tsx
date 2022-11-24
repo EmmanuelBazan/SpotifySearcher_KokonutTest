@@ -1,10 +1,11 @@
-import { Text, View, TextInput, Button, StyleSheet, Dimensions } from "react-native";
+import { Text, View, TextInput, Button, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SearchViewModel from "./SearchViewModel";
 import RecyclerViewComp from "./components/RecyclerViewComp";
 import { useRef, useState } from "react";
-
-const DIMENSIONS_SCREEN = Dimensions.get('screen');
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {WHITE_1} from '../../styles/Colors';
+import SearchStyles from "./styles/SearchStyles";
 
 const SearchView = () => {
 
@@ -14,43 +15,49 @@ const SearchView = () => {
 
     return (
       <SafeAreaView>
-        <View style={styles.searchContainer}>
+        <View style={SearchStyles.searchContainer}>
           <TextInput
-            style={styles.input}
+            style={SearchStyles.input}
             placeholder="¿Que deseas escuchar hoy?"
             onChangeText={handleOnChange}
+            placeholderTextColor={WHITE_1}
           />
+          <TouchableOpacity>
+          <View style={SearchStyles.deleteContainer} >
+            <Icon name="close" size={30} color={WHITE_1} />
+            </View>
+          </TouchableOpacity>
         </View>
-        <View style={styles.filterSeccion}>
+        <View style={SearchStyles.filterSeccion}>
           <Button
             title="canciones"
             onPress={() => {
-              setListFilter(listFilter => (listFilter = 1));
+              setListFilter(1);
             }}
           />
           <Button
             title="artistas"
             onPress={() => {
-              setListFilter(listFilter => (listFilter = 2));
+              setListFilter(2);
             }}
           />
           <Button
             title="albumes"
             onPress={() => {
-              setListFilter(listFilter => (listFilter = 3));
+              setListFilter(3);
             }}
           />
         </View>
         {
           errorMess.length > 0 ?
-          <View style={styles.noConnSeccion}>
-            <Text style={styles.noConnLabel}>{errorMess}</Text>
+          <View style={SearchStyles.noConnSeccion}>
+            <Text style={SearchStyles.noConnLabel}>{errorMess}</Text>
           </View>
           :
           <></>
         }
         {searchItem.track_list.length > 0 ? (
-          <View style={styles.recyclerSeccion}>
+          <View style={SearchStyles.recyclerSeccion}>
           <RecyclerViewComp
             searchItem={searchItem}
             filterItem={listFilter}
@@ -65,43 +72,3 @@ const SearchView = () => {
 }
 
 export default SearchView;
-
-const styles = StyleSheet.create({
-    searchContainer: {
-        width: '100%',
-        backgroundColor: 'blue',
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    input: {
-        backgroundColor: 'white',
-        fontSize: 16,
-        width: '90%',
-        padding: 10
-    },
-    filterSeccion: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        width: '100%',
-        margin: 10
-    },
-    recyclerSeccion: {
-        width: '100%',
-        height: DIMENSIONS_SCREEN.height * 0.8
-    },
-    noConnSeccion: {
-      display: 'flex',
-      width: '100%',
-      padding: 10,
-      flexDirection: 'row',
-      backgroundColor: 'black',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    noConnLabel: {
-      color: 'white',
-      fontSize: 16,
-      fontWeight: 'normal'
-    }
-})
