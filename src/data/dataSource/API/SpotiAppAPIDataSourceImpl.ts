@@ -28,7 +28,6 @@ async function getStoredToken() {
  * @returns Promesa JSON con la respuesta del fetch
  */
 async function myFetch<T>(url: string, tken: string): Promise<T>{
-    console.log("TOKEN ---> ",tken)
     return fetch(url,{
         headers: {
           'Content-Type': 'application/json',

@@ -56,7 +56,7 @@ const SearchView = () => {
           />
         </View>
         ) : (
-          <View />
+          <View style={SearchStyles.recyclerSeccion} />
         )}
       </SafeAreaView>
     );
