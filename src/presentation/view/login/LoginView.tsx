@@ -4,6 +4,8 @@ import { LoginStackParamList } from "../../navigation/stack/LoginStackParams";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoginViewModel from './LoginViewModel';
 import { useEffect } from 'react';
+import LoginStyles from './styles/LoginStyles';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type LoginViewNavigationType = StackNavigationProp<LoginStackParamList,'login'>;
 
@@ -22,8 +24,8 @@ const LoginView = ({ navigation }: props) => {
     },[goHome])
 
     return(
-        <SafeAreaView>
-            <Text>Login Screen!!</Text>
+        <SafeAreaView style={LoginStyles.mainContainer} >
+            <Text>Spotify Searcher</Text>
             <Button title='LogIn' onPress={loginToSpotify}/>
             <Text style={{ color: 'red', fontSize: 24 }} >{errorMess}</Text>
         </SafeAreaView>
