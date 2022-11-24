@@ -6,10 +6,11 @@ import { useRef, useState } from "react";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {WHITE_1} from '../../styles/Colors';
 import SearchStyles from "./styles/SearchStyles";
+import FilterButton from "./components/FilterButton";
 
 const SearchView = () => {
 
-    const { searchItem, handleOnChange, errorMess } = SearchViewModel();
+    const { searchItem, handleOnChange, errorMess, valueInput, setValueInput } = SearchViewModel();
     const [listFilter,setListFilter] = useState(1);
     // const listFilter = useRef(1)
 
@@ -20,33 +21,24 @@ const SearchView = () => {
             style={SearchStyles.input}
             placeholder="¿Que deseas escuchar hoy?"
             onChangeText={handleOnChange}
-            placeholderTextColor={WHITE_1}
+            placeholderTextColor={"#898989"}
+            value={valueInput}
           />
-          <TouchableOpacity>
+          {
+            valueInput.length > 0 ?
+            <TouchableOpacity onPress={() => {setValueInput('')}}>
           <View style={SearchStyles.deleteContainer} >
             <Icon name="close" size={30} color={WHITE_1} />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> 
+            :
+            <></>
+          }
         </View>
         <View style={SearchStyles.filterSeccion}>
-          <Button
-            title="canciones"
-            onPress={() => {
-              setListFilter(1);
-            }}
-          />
-          <Button
-            title="artistas"
-            onPress={() => {
-              setListFilter(2);
-            }}
-          />
-          <Button
-            title="albumes"
-            onPress={() => {
-              setListFilter(3);
-            }}
-          />
+          <FilterButton title="canciones" setListFilter={setListFilter} filterNum={1} listFilter={listFilter} />
+          <FilterButton title="artistas" setListFilter={setListFilter} filterNum={2} listFilter={listFilter} />
+          <FilterButton title="albumes" setListFilter={setListFilter} filterNum={3} listFilter={listFilter} />
         </View>
         {
           errorMess.length > 0 ?

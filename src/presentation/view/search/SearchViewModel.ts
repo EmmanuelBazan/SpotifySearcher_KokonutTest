@@ -7,6 +7,7 @@ import NetInfo from "@react-native-community/netinfo";
 
 const SearchViewModel = () => {
 
+    const [valueInput,setValueInput] = useState('');
     const [listToShow,setListToShow] = useState<[]>([]);
     const [searchItem,setSearchItem] = useState<GeneralSearch>({
         track_list: [],
@@ -20,6 +21,7 @@ const SearchViewModel = () => {
 
     const handleOnChange = async(value: string) => {
         querySearch.current = value;
+        setValueInput(value);
         if(value.length > 0){
             const isConn = await handleNetwork();
             if(isConn){
@@ -48,7 +50,9 @@ const SearchViewModel = () => {
         handleOnChange,
         searchItem,
         querySearch,
-        errorMess
+        errorMess,
+        valueInput,
+        setValueInput
     }
 }
 
