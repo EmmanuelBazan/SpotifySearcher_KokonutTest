@@ -10,11 +10,19 @@ type albumBlockType = {
 }
 
 const AlbumBlockComp = ({albumItem}:albumBlockType) => {
+
+    const getUriImage = () => {
+        let hasImg: boolean = albumItem?.images !== undefined && albumItem.images?.length > 0;
+        return hasImg === true
+        ? albumItem.images![0].url
+        : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png'
+    } 
+
     return(
         <>
         <TouchableOpacity>
             <View style={AlbumBlockStyle.blockContainer}>
-            <Image style={AlbumBlockStyle.image} source={{uri: albumItem?.images ? albumItem.images[0].url : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png' }} />
+            <Image style={AlbumBlockStyle.image} source={{uri: getUriImage()}} />
                 <View style={AlbumBlockStyle.labelContainer}>
                     <Text style={AlbumBlockStyle.albumLabel} >{albumItem?.name ? albumItem.name : ''}</Text>
                     <Text style={AlbumBlockStyle.artistLabel} >{albumItem?.artists ? albumItem.artists[0].name : ''}</Text>

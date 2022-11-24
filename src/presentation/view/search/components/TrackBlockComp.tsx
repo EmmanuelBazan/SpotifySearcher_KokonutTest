@@ -9,11 +9,19 @@ type trackBlockType = {
 }
 
 const TrackBlockComp = ({trackItem}:trackBlockType) => {
+
+    const getUriImage = () => {
+        let hasImg: boolean = trackItem?.album?.images !== undefined && trackItem?.album?.images?.length > 0;
+        return hasImg === true
+        ? trackItem?.album?.images![0].url
+        : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png'
+    } 
+
     return(
         <>
         <TouchableOpacity>
             <View style={TrackBlockStyle.blockContainer}>
-                <Image style={TrackBlockStyle.image} source={{uri: trackItem?.album?.images ? trackItem.album.images[0].url : 'https://pixsector.com/cache/517d8be6/av5c8336583e291842624.png'}} />
+                <Image style={TrackBlockStyle.image} source={{uri: getUriImage()}} />
                 <View style={TrackBlockStyle.labelContainer}>
                     <Text style={TrackBlockStyle.trackLabel}>{trackItem?.name ? trackItem.name : ''}</Text>
                     <Text style={TrackBlockStyle.artistLabel}>{trackItem?.artists ? trackItem.artists[0].name : ''}</Text>

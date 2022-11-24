@@ -36,7 +36,6 @@ const SearchViewModel = () => {
 
     const handleNetwork = async() => {
         return NetInfo.fetch().then(state => {
-          console.log('Is connected?', state.isConnected);
           return state.isConnected
         })
         .catch((err) => {
