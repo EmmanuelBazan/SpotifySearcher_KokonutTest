@@ -10,7 +10,7 @@ La aplicacion consume la API proporcionada por Spotify
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://user-images.githubusercontent.com/81269697/203852571-f7277d34-0882-448e-8733-aab163c140b6.png)
 
 
 ## Run Locally
