@@ -3,7 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { LoginStackParamList } from "../../navigation/stack/LoginStackParams";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoginViewModel from './LoginViewModel';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LoginStyles from './styles/LoginStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { GREEN_1, PURPLE_1 } from '../../styles/Colors';

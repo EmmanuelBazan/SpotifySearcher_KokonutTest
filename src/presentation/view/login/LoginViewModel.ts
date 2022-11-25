@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Linking } from "react-native";
+import { Linking, NativeModules } from "react-native";
 import AuthenticationAPIDataSourceImpl from "../../../data/dataSource/API/AuthenticationAPIDataSourceImpl";
 import AuthenticationRepositoryImpl from "../../../data/repository/AuthenticationRepositoryImpl";
 import { GetAuthenticationToken } from "../../../domain/useCase/authentication/GetAuthenticationToken";
@@ -12,6 +12,7 @@ const LoginViewModel = () => {
 
     const [ errorMess, serErrorMess ] = useState('');
     const [ goHome, setGoHome ] = useState(false);
+    const { ConnectionStatusModule } = NativeModules;
 
     useEffect(() => {
         Linking.addEventListener('url',handleUrl)
@@ -30,8 +31,16 @@ const LoginViewModel = () => {
         }
     }
 
+    const callBackStatusConnection = async(status: string, connected: boolean) => {
+        if(connected){
+            await Linking.openURL(URL_SPOTIFY);
+        } else {
+            serErrorMess(status);
+        }
+    }
+
     const loginToSpotify = async() => {
-        await Linking.openURL(URL_SPOTIFY);
+        await ConnectionStatusModule.checkConnectionStatus(callBackStatusConnection);
     }
 
     return {
