@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
+import { NativeModules } from "react-native";
 import SpotiAppAPIDataSourceImpl from "../../../data/dataSource/API/SpotiAppAPIDataSourceImpl";
 import GeneralSearchRepositoryImpl from "../../../data/repository/GeneralSearchRepositoryImpl";
 import GeneralSearch from "../../../domain/model/GeneralSearch";
 import GetGeneralSearch from "../../../domain/useCase/generalSearch/GetGeneralSearch";
-import NetInfo from "@react-native-community/netinfo";
 
 const SearchViewModel = () => {
 
+    const { ConnectionStatusModule } = NativeModules;
     const [valueInput,setValueInput] = useState('');
     const [listToShow,setListToShow] = useState<[]>([]);
     const [searchItem,setSearchItem] = useState<GeneralSearch>({
@@ -23,25 +24,18 @@ const SearchViewModel = () => {
         querySearch.current = value;
         setValueInput(value);
         if(value.length > 0){
-            const isConn = await handleNetwork();
-            if(isConn){
-                setErrorMess('')
-                const generalSearchItem: GeneralSearch = await useCase.invoke(querySearch.current);//querySearch.current
-                setSearchItem(generalSearchItem);
-            } else {
-                setErrorMess('Sin conexion de internet')
-            }
+            await ConnectionStatusModule.checkConnectionStatus(callBackStatusConnection);
         }
     }
 
-    const handleNetwork = async() => {
-        return NetInfo.fetch().then(state => {
-          return state.isConnected
-        })
-        .catch((err) => {
-            console.log("ERROR HANDLE NETWORK ---> ",err)
-            return false
-        })
+    const callBackStatusConnection = async(status: string, connected: boolean) => {
+        if(connected){
+            setErrorMess('')
+            const generalSearchItem: GeneralSearch = await useCase.invoke(querySearch.current);//querySearch.current
+            setSearchItem(generalSearchItem);
+        } else {
+            setErrorMess(status);
+        }
     }
 
     return {

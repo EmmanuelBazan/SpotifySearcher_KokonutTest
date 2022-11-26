@@ -33,6 +33,7 @@ const LoginViewModel = () => {
 
     const callBackStatusConnection = async(status: string, connected: boolean) => {
         if(connected){
+            serErrorMess('');
             await Linking.openURL(URL_SPOTIFY);
         } else {
             serErrorMess(status);
